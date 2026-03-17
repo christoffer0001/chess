@@ -38,9 +38,23 @@ class PieceControll {
     ];
   }
 
+  moveController(coord1, coord2) {
+    console.log(this.checkSquare(coord1, coord2)); //this. because js class, not global function.
+  }
+
+  checkSquare(posX, posY) {
+    let squareWidth = this.x / 8;
+    let squareHeight = this.y / 8;
+
+    let col = Math.floor(posX / squareWidth);
+    let row = Math.floor(posY / squareHeight);
+
+    return [col, row];
+  }
+
   display() {
-    for (let i = 0; i <= 8; i++) {
-      for (let j = 0; j <= 8; j++) {
+    for (let i = 0; i < 8; i++) {
+      for (let j = 0; j < 8; j++) {
         //Black pawn
         if (this.pieces[i][j] == "Bp") {
           image(this.pawn2, (this.x / 8) * j, (this.y / 8) * i, this.x / 8, this.y / 8 - this.y / 160);

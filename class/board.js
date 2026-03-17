@@ -14,7 +14,6 @@ class Board {
         } else {
           fill(90);
         }
-        //fill(random(1, 255), random(1, 255), random(1, 255));
         rect((this.x / 8) * i, (this.y / 8) * j, this.x / 8, this.y / 8);
         pop();
       }

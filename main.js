@@ -30,3 +30,7 @@ function draw() {
   board.drawing();
   pieceController.display();
 }
+
+function mouseClicked() {
+  pieceController.moveController(mouseX, mouseY);
+}
