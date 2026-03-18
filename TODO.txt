@@ -2,7 +2,20 @@ Game:
     - Switching players
 
 Pawn:
+    - Pawns shouldn't capture its own colour pawns
     - En Passant
+
+Rook:
+    - Make white rook move too
+    - Write the capture logic (only opposite colour pieces)
 
 Tecnical:
     - Logic to handle outside of board clicking
+
+
+
+Fine tuning:
+    - Notation of game
+    - Setup board from FEN (code)
+
+
