@@ -23,7 +23,7 @@ class GameController {
         Empty = ""
         Pawn = "-p"
         Rook = "-r"
-        Knight = "-kn"
+        Knight = "-kn" (Lower Case)
         Bishop = "-b"
         Queen = "-q"
         King = "-k"

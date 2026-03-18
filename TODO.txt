@@ -1,0 +1,8 @@
+Game:
+    - Switching players
+
+Pawn:
+    - En Passant
+
+Tecnical:
+    - Logic to handle outside of board clicking
