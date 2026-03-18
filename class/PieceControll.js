@@ -29,6 +29,7 @@ class PieceControll {
         King = "-k"
     */
 
+    //pieces[y, x]
     this.pieces = [
       ["Br", "Bkn", "Bb", "Bq", "Bk", "Bb", "Bkn", "Br"],
       ["Bp", "Bp", "Bp", "Bp", "Bp", "Bp", "Bp", "Bp"],
@@ -52,53 +53,55 @@ class PieceControll {
   moveController(coord1, coord2) {
     if (this.currentSquare) {
       this.lastSquare = this.currentSquare;
+    } else {
+      this.lastSquare = this.checkSquare(coord1, coord2);
     }
     this.currentSquare = this.checkSquare(coord1, coord2); //this. because js class, not global function.
-    console.log(this.currentSquare[0], this.currentSquare[1]);
+    //console.log(this.currentSquare[0], this.currentSquare[1]);
 
     if (this.lastSquare && this.currentSquare) {
       //Tap into class for specifik piece
-      switch (this.pieces[this.currentSquare[1]][this.currentSquare[0]]) {
+      switch (this.pieces[this.lastSquare[1]][this.lastSquare[0]]) {
         /*Black*/
 
         case "Bp":
-          this.pawnControll.move(0, this.lastSquare, this.currentSquare);
+          this.pawnControll.move(0, this.lastSquare, this.currentSquare, this.pieces);
           break;
         case "Br":
-          this.rookControll.move(0, this.lastSquare, this.currentSquare);
+          this.rookControll.move(0, this.lastSquare, this.currentSquare, this.pieces);
           break;
         case "Bkn":
-          this.knightControll.move(0, this.lastSquare, this.currentSquare);
+          this.knightControll.move(0, this.lastSquare, this.currentSquare, this.pieces);
           break;
         case "Bb":
-          this.bishopControll.move(0, this.lastSquare, this.currentSquare);
+          this.bishopControll.move(0, this.lastSquare, this.currentSquare, this.pieces);
           break;
         case "Bq":
-          this.queenControll.move(0, this.lastSquare, this.currentSquare);
+          this.queenControll.move(0, this.lastSquare, this.currentSquare, this.pieces);
           break;
         case "Bk":
-          this.kingControll.move(0, this.lastSquare, this.currentSquare);
+          this.kingControll.move(0, this.lastSquare, this.currentSquare, this.pieces);
           break;
 
         /*White*/
 
         case "Wp":
-          this.pawnControll.move(1, this.lastSquare, this.currentSquare);
+          this.pawnControll.move(1, this.lastSquare, this.currentSquare, this.pieces);
           break;
         case "Wr":
-          this.rookControll.move(1, this.lastSquare, this.currentSquare);
+          this.rookControll.move(1, this.lastSquare, this.currentSquare, this.pieces);
           break;
         case "Wkn":
-          this.knightControll.move(1, this.lastSquare, this.currentSquare);
+          this.knightControll.move(1, this.lastSquare, this.currentSquare, this.pieces);
           break;
         case "Wb":
-          this.bishopControll.move(1, this.lastSquare, this.currentSquare);
+          this.bishopControll.move(1, this.lastSquare, this.currentSquare, this.pieces);
           break;
         case "Wq":
-          this.queenControll.move(1, this.lastSquare, this.currentSquare);
+          this.queenControll.move(1, this.lastSquare, this.currentSquare, this.pieces);
           break;
         case "Wk":
-          this.kingControll.move(1, this.lastSquare, this.currentSquare);
+          this.kingControll.move(1, this.lastSquare, this.currentSquare, this.pieces);
           break;
       }
     }
