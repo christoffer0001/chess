@@ -14,6 +14,9 @@ class PieceControll {
     this.queen2 = queen2;
     this.king1 = king1;
     this.king2 = king2;
+
+    this.lastSquare;
+    this.currentSquare;
     /* Pieces registration:
         Black = B-
         White = W-
@@ -36,20 +39,79 @@ class PieceControll {
       ["Wp", "Wp", "Wp", "Wp", "Wp", "Wp", "Wp", "Wp"],
       ["Wr", "Wkn", "Wb", "Wq", "Wk", "Wb", "Wkn", "Wr"],
     ];
+
+    //Piece classes init
+    this.pawnControll = new Pawn(this.x, this.y);
+    this.knightControll = new knight(this.x, this.y);
+    this.kingControll = new King(this.x, this.y);
+    this.bishopControll = new Bishop(this.x, this.y);
+    this.queenControll = new Queen(this.x, this.y);
+    this.rookControll = new Rook(this.x, this.y);
   }
 
   moveController(coord1, coord2) {
-    console.log(this.checkSquare(coord1, coord2)); //this. because js class, not global function.
+    if (this.currentSquare) {
+      this.lastSquare = this.currentSquare;
+    }
+    this.currentSquare = this.checkSquare(coord1, coord2); //this. because js class, not global function.
+    console.log(this.currentSquare[0], this.currentSquare[1]);
+
+    if (this.lastSquare && this.currentSquare) {
+      //Tap into class for specifik piece
+      switch (this.pieces[this.currentSquare[1]][this.currentSquare[0]]) {
+        /*Black*/
+
+        case "Bp":
+          this.pawnControll.move(0, this.lastSquare, this.currentSquare);
+          break;
+        case "Br":
+          this.rookControll.move(0, this.lastSquare, this.currentSquare);
+          break;
+        case "Bkn":
+          this.knightControll.move(0, this.lastSquare, this.currentSquare);
+          break;
+        case "Bb":
+          this.bishopControll.move(0, this.lastSquare, this.currentSquare);
+          break;
+        case "Bq":
+          this.queenControll.move(0, this.lastSquare, this.currentSquare);
+          break;
+        case "Bk":
+          this.kingControll.move(0, this.lastSquare, this.currentSquare);
+          break;
+
+        /*White*/
+
+        case "Wp":
+          this.pawnControll.move(1, this.lastSquare, this.currentSquare);
+          break;
+        case "Wr":
+          this.rookControll.move(1, this.lastSquare, this.currentSquare);
+          break;
+        case "Wkn":
+          this.knightControll.move(1, this.lastSquare, this.currentSquare);
+          break;
+        case "Wb":
+          this.bishopControll.move(1, this.lastSquare, this.currentSquare);
+          break;
+        case "Wq":
+          this.queenControll.move(1, this.lastSquare, this.currentSquare);
+          break;
+        case "Wk":
+          this.kingControll.move(1, this.lastSquare, this.currentSquare);
+          break;
+      }
+    }
   }
 
   checkSquare(posX, posY) {
     let squareWidth = this.x / 8;
     let squareHeight = this.y / 8;
 
-    let col = Math.floor(posX / squareWidth);
-    let row = Math.floor(posY / squareHeight);
+    let row = Math.floor(posX / squareWidth);
+    let col = Math.floor(posY / squareHeight);
 
-    return [col, row];
+    return [row, col]; //[x, y]
   }
 
   display() {
