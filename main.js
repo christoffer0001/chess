@@ -1,7 +1,7 @@
 let x = 720,
   y = x;
 
-let board, pieceController;
+let board, gameController;
 
 function preload() {
   pawn1 = loadImage("class/pieces/pawn.png");
@@ -22,15 +22,15 @@ function preload() {
 function setup() {
   createCanvas(x, y);
   board = new Board(x, y);
-  pieceController = new PieceControll(x, y, pawn1, pawn2, rook1, rook2, knight1, knight2, bishop1, bishop2, queen1, queen2, king1, king2);
+  gameController = new GameController(x, y, pawn1, pawn2, rook1, rook2, knight1, knight2, bishop1, bishop2, queen1, queen2, king1, king2);
 }
 
 function draw() {
   background(220);
   board.drawing();
-  pieceController.display();
+  gameController.display();
 }
 
 function mouseClicked() {
-  pieceController.moveController(mouseX, mouseY);
+  gameController.moveController(mouseX, mouseY);
 }
