@@ -20,10 +20,10 @@ class Pawn {
   }
 
   validMove(colour, pre, current, pieces) {
-    //make sure square isn't occupied
-    if (pieces[current[1]][current[0]] == "") {
-      //Black piece
-      if (colour == 0) {
+    //Black piece
+    if (colour == 0) {
+      //Check if move (else capture)
+      if (pieces[current[1]][current[0]] == "") {
         //If on black starting square && pre == current in x direction ([x, y])
         if (pre[1] == 1 && pre[0] == current[0]) {
           //calc the difference in vertical squares (y)
@@ -42,10 +42,18 @@ class Pawn {
             return true;
           }
         }
+      } else {
+        //capture logic
+        if (current[1] - pre[1] == 1 && (current[0] == pre[0] - 1 || current[0] == pre[0] + 1)) {
+          return true;
+        }
       }
+    }
 
-      //White pieces
-      if (colour == 1) {
+    //White pieces
+    if (colour == 1) {
+      //Check if move (else capture)
+      if (pieces[current[1]][current[0]] == "") {
         //If on black starting square && pre == current in x direction ([x, y])
         if (pre[1] == 6 && pre[0] == current[0]) {
           //calc the difference in vertical squares (y)
@@ -63,6 +71,11 @@ class Pawn {
           if (pre[1] - current[1] == 1 && pre[0] == current[0]) {
             return true;
           }
+        }
+      } else {
+        //capture logic
+        if (pre[1] - current[1] == 1 && (current[0] == pre[0] - 1 || current[0] == pre[0] + 1)) {
+          return true;
         }
       }
     }
