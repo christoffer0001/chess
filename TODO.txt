@@ -17,5 +17,3 @@ Tecnical:
 Fine tuning:
     - Notation of game
     - Setup board from FEN (code)
-
-

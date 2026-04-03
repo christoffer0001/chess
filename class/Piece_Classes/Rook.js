@@ -22,32 +22,32 @@ class Rook {
   validMove(colour, pre, current, pieces) {
     //Check that movement is either horizontal or vertical (no diagonal)
     if (current[1] == pre[1] || current[0] == pre[0]) {
-      let diff = current[1] - pre[1] + current[0] - pre[0];
-      let verticalCheck;
-      let dir;
-      if (diff < 0) {
-        dir = -1;
+      this.diff = current[1] - pre[1] + current[0] - pre[0];
+      this.verticalCheck;
+      this.dir;
+      if (this.diff < 0) {
+        this.dir = -1;
       } else {
-        dir = 1;
+        this.dir = 1;
       }
 
       //If not vertical
       if (current[1] - pre[1] != 0) {
-        verticalCheck = true;
+        this.verticalCheck = true;
       } else {
-        verticalCheck = false;
+        this.verticalCheck = false;
       }
 
-      for (let i = 1; i <= Math.abs(diff); i++) {
-        if (verticalCheck == true) {
+      for (let i = 1; i <= Math.abs(this.diff); i++) {
+        if (this.verticalCheck == true) {
           //Check for squares in y direction, for i <= absolute value of difference
-          if (pieces[pre[1] + i * dir][pre[0]] != "") {
+          if (pieces[pre[1] + i * this.dir][pre[0]] != "") {
             return false;
           }
         }
-        if (verticalCheck == false) {
+        if (this.verticalCheck == false) {
           //Check squares in x direction
-          if (pieces[pre[1]][pre[0] + i * dir] != "") {
+          if (pieces[pre[1]][pre[0] + i * this.dir] != "") {
             return false;
           }
         }
