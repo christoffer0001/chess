@@ -6,7 +6,6 @@ Pawn:
     - En Passant
 
 Rook:
-    - Make white rook move too
     - Write the capture logic (only opposite colour pieces)
 
 Tecnical:
