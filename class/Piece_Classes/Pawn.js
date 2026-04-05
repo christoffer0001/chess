@@ -1,7 +1,6 @@
 class Pawn {
-  contructor() {
-    this.x = x;
-    this.y = y;
+  constructor(captureCheck) {
+    this.captureCheck = captureCheck;
   }
 
   move(colour, pre, current, pieces) {
@@ -20,8 +19,9 @@ class Pawn {
   }
 
   validMove(colour, pre, current, pieces) {
+    this.colour = colour;
     //Black piece
-    if (colour == 0) {
+    if (this.colour == 0) {
       //Check if move (else capture)
       if (pieces[current[1]][current[0]] == "") {
         //If on black starting square && pre == current in x direction ([x, y])
@@ -44,14 +44,17 @@ class Pawn {
         }
       } else {
         //capture logic
-        if (current[1] - pre[1] == 1 && (current[0] == pre[0] - 1 || current[0] == pre[0] + 1)) {
+        this.tempPos = [current[1], current[0]]; //[y, x]
+        if (this.captureCheck.check(this.colour, pieces, this.tempPos) && current[1] - pre[1] == 1 && (current[0] == pre[0] - 1 || current[0] == pre[0] + 1)) {
           return true;
+        } else {
+          return false;
         }
       }
     }
 
     //White pieces
-    if (colour == 1) {
+    else if (this.colour == 1) {
       //Check if move (else capture)
       if (pieces[current[1]][current[0]] == "") {
         //If on black starting square && pre == current in x direction ([x, y])
@@ -74,8 +77,11 @@ class Pawn {
         }
       } else {
         //capture logic
-        if (pre[1] - current[1] == 1 && (current[0] == pre[0] - 1 || current[0] == pre[0] + 1)) {
+        this.tempPos = [current[1], current[0]]; //[y, x]
+        if (this.captureCheck.check(this.colour, pieces, this.tempPos) && pre[1] - current[1] == 1 && (current[0] == pre[0] - 1 || current[0] == pre[0] + 1)) {
           return true;
+        } else {
+          return false;
         }
       }
     }
