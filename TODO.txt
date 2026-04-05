@@ -2,11 +2,8 @@ Game:
     - Switching players
 
 Pawn:
-    - Pawns shouldn't capture its own colour pawns
     - En Passant
-
-Rook:
-    - Write the capture logic (only opposite colour pieces)
+    - Pawn to piece when reaching the end of board
 
 Tecnical:
     - Logic to handle outside of board clicking
@@ -14,3 +11,4 @@ Tecnical:
 Fine tuning:
     - Notation of game
     - Setup board from FEN (code)
+    - Down-scale pieces

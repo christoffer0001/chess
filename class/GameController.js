@@ -2,6 +2,7 @@ class GameController {
   constructor(x, y, pawn1, pawn2, rook1, rook2, knight1, knight2, bishop1, bishop2, queen1, queen2, king1, king2) {
     this.x = x;
     this.y = y;
+
     this.pawn1 = pawn1;
     this.pawn2 = pawn2;
     this.rook1 = rook1;
@@ -29,7 +30,7 @@ class GameController {
         King = "-k"
     */
 
-    //pieces[y, x]
+    //Storage as [y, x] (JS - style)
     this.pieces = [
       ["Br", "Bkn", "Bb", "Bq", "Bk", "Bb", "Bkn", "Br"],
       ["Bp", "Bp", "Bp", "Bp", "Bp", "Bp", "Bp", "Bp"],
@@ -42,15 +43,23 @@ class GameController {
     ];
 
     //Capture validity checker
-    this.captureCheck = new CaptureValidity();
+    this.captureCheck = new CaptureValidity(this.getPiece.bind(this));
 
     //Piece classes init
-    this.pawnControll = new Pawn(this.captureCheck);
-    this.knightControll = new knight(this.captureCheck);
-    this.kingControll = new King(this.captureCheck);
-    this.bishopControll = new Bishop(this.captureCheck);
-    this.queenControll = new Queen(this.captureCheck);
-    this.rookControll = new Rook(this.captureCheck);
+    this.pawnControll = new Pawn(this.captureCheck, this.getPiece.bind(this), this.setPiece.bind(this));
+    this.knightControll = new knight(this.captureCheck, this.getPiece.bind(this), this.setPiece.bind(this));
+    this.kingControll = new King(this.captureCheck, this.getPiece.bind(this), this.setPiece.bind(this));
+    this.bishopControll = new Bishop(this.captureCheck, this.getPiece.bind(this), this.setPiece.bind(this));
+    this.queenControll = new Queen(this.captureCheck, this.getPiece.bind(this), this.setPiece.bind(this));
+    this.rookControll = new Rook(this.captureCheck, this.getPiece.bind(this), this.setPiece.bind(this));
+  }
+
+  //Helpers to be able to write [x,y] formate, but removing storage bugs since storage in JS is [y,x] (for some reason)
+  getPiece(x, y) {
+    return this.pieces[y][x];
+  }
+  setPiece(x, y, value) {
+    this.pieces[y][x] = value;
   }
 
   moveController(coord1, coord2) {
@@ -63,47 +72,50 @@ class GameController {
 
     if (this.lastSquare && this.currentSquare) {
       //Tap into class for specifik piece
+      let [lastX, lastY] = this.lastSquare;
+      let [currentX, currentY] = this.currentSquare;
+
       switch (this.pieces[this.lastSquare[1]][this.lastSquare[0]]) {
         /*Black*/
 
         case "Bp":
-          this.pawnControll.move(0, this.lastSquare, this.currentSquare, this.pieces);
+          this.pawnControll.move(0, [lastX, lastY], [currentX, currentY]);
           break;
         case "Br":
-          this.rookControll.move(0, this.lastSquare, this.currentSquare, this.pieces);
+          this.rookControll.move(0, [lastX, lastY], [currentX, currentY]);
           break;
         case "Bkn":
-          this.knightControll.move(0, this.lastSquare, this.currentSquare, this.pieces);
+          this.knightControll.move(0, [lastX, lastY], [currentX, currentY]);
           break;
         case "Bb":
-          this.bishopControll.move(0, this.lastSquare, this.currentSquare, this.pieces);
+          this.bishopControll.move(0, [lastX, lastY], [currentX, currentY]);
           break;
         case "Bq":
-          this.queenControll.move(0, this.lastSquare, this.currentSquare, this.pieces);
+          this.queenControll.move(0, [lastX, lastY], [currentX, currentY]);
           break;
         case "Bk":
-          this.kingControll.move(0, this.lastSquare, this.currentSquare, this.pieces);
+          this.kingControll.move(0, [lastX, lastY], [currentX, currentY]);
           break;
 
         /*White*/
 
         case "Wp":
-          this.pawnControll.move(1, this.lastSquare, this.currentSquare, this.pieces);
+          this.pawnControll.move(1, [lastX, lastY], [currentX, currentY]);
           break;
         case "Wr":
-          this.rookControll.move(1, this.lastSquare, this.currentSquare, this.pieces);
+          this.rookControll.move(1, [lastX, lastY], [currentX, currentY]);
           break;
         case "Wkn":
-          this.knightControll.move(1, this.lastSquare, this.currentSquare, this.pieces);
+          this.knightControll.move(1, [lastX, lastY], [currentX, currentY]);
           break;
         case "Wb":
-          this.bishopControll.move(1, this.lastSquare, this.currentSquare, this.pieces);
+          this.bishopControll.move(1, [lastX, lastY], [currentX, currentY]);
           break;
         case "Wq":
-          this.queenControll.move(1, this.lastSquare, this.currentSquare, this.pieces);
+          this.queenControll.move(1, [lastX, lastY], [currentX, currentY]);
           break;
         case "Wk":
-          this.kingControll.move(1, this.lastSquare, this.currentSquare, this.pieces);
+          this.kingControll.move(1, [lastX, lastY], [currentX, currentY]);
           break;
       }
     }
@@ -113,73 +125,85 @@ class GameController {
     let squareWidth = this.x / 8;
     let squareHeight = this.y / 8;
 
-    let row = Math.floor(posX / squareWidth);
-    let col = Math.floor(posY / squareHeight);
+    let x = Math.floor(posX / squareWidth);
+    let y = Math.floor(posY / squareHeight);
 
-    return [row, col]; //[x, y]
+    return [x, y];
   }
 
   display() {
-    for (let i = 0; i < 8; i++) {
-      for (let j = 0; j < 8; j++) {
+    let squareWPawn = this.x / 8;
+    let squareHPawn = this.y / 8;
+    let squareW = this.x / 8;
+    let squareH = this.y / 8;
+
+    for (let x = 0; x < 8; x++) {
+      for (let y = 0; y < 8; y++) {
+        let piece = this.getPiece(x, y);
+
+        let drawXpawn = squareW * x;
+        let drawYpawn = squareH * y;
+        let drawX = squareW * x;
+        let drawY = squareH * y;
+
         //Black pawn
-        if (this.pieces[i][j] == "Bp") {
-          image(this.pawn2, (this.x / 8) * j, (this.y / 8) * i, this.x / 8, this.y / 8 - this.y / 160);
+        if (piece == "Bp") {
+          image(this.pawn2, drawXpawn, drawYpawn, squareWPawn, squareHPawn - this.y / 160);
         }
 
         //White pawn
-        else if (this.pieces[i][j] == "Wp") {
-          image(this.pawn1, (this.x / 8) * j, (this.y / 8) * i, this.x / 8, this.y / 8 - this.y / 160);
+        else if (piece == "Wp") {
+          image(this.pawn1, drawXpawn, drawYpawn, squareWPawn, squareHPawn - this.y / 160);
         }
 
         //Black Rook
-        else if (this.pieces[i][j] == "Br") {
-          image(this.rook2, (this.x / 8) * j + this.x / 150, (this.y / 8) * i + this.x / 150, this.x / 9, this.y / 9);
+        else if (piece == "Br") {
+          image(this.rook2, drawX, drawY, squareW, squareH);
         }
 
         //White Rook
-        else if (this.pieces[i][j] == "Wr") {
-          image(this.rook1, (this.x / 8) * j + this.x / 150, (this.y / 8) * i + this.x / 150, this.x / 9, this.y / 9);
+        else if (piece == "Wr") {
+          image(this.rook1, drawX, drawY, squareW, squareH);
         }
 
         //Black Knight
-        else if (this.pieces[i][j] == "Bkn") {
-          image(this.knight2, (this.x / 8) * j + this.x / 150, (this.y / 8) * i + this.x / 150, this.x / 9, this.y / 9);
+        else if (piece == "Bkn") {
+          image(this.knight2, drawX, drawY, squareW, squareH);
         }
 
         //White Knight
-        else if (this.pieces[i][j] == "Wkn") {
-          image(this.knight1, (this.x / 8) * j + this.x / 150, (this.y / 8) * i + this.x / 150, this.x / 9, this.y / 9);
+        else if (piece == "Wkn") {
+          image(this.knight1, drawX, drawY, squareW, squareH);
         }
 
         //Black Bishop
-        else if (this.pieces[i][j] == "Bb") {
-          image(this.bishop2, (this.x / 8) * j + this.x / 150, (this.y / 8) * i + this.x / 150, this.x / 9, this.y / 9);
+        else if (piece == "Bb") {
+          image(this.bishop2, drawX, drawY, squareW, squareH);
         }
 
         //White Bishop
-        else if (this.pieces[i][j] == "Wb") {
-          image(this.bishop1, (this.x / 8) * j + this.x / 150, (this.y / 8) * i + this.x / 150, this.x / 9, this.y / 9);
+        else if (piece == "Wb") {
+          image(this.bishop1, drawX, drawY, squareW, squareH);
         }
 
         //Black Queen
-        else if (this.pieces[i][j] == "Bq") {
-          image(this.queen2, (this.x / 8) * j + this.x / 150, (this.y / 8) * i + this.x / 150, this.x / 9, this.y / 9);
+        else if (piece == "Bq") {
+          image(this.queen2, drawX, drawY, squareW, squareH);
         }
 
         //White Queen
-        else if (this.pieces[i][j] == "Wq") {
-          image(this.queen1, (this.x / 8) * j + this.x / 150, (this.y / 8) * i + this.x / 150, this.x / 9, this.y / 9);
+        else if (piece == "Wq") {
+          image(this.queen1, drawX, drawY, squareW, squareH);
         }
 
         //Black King
-        else if (this.pieces[i][j] == "Bk") {
-          image(this.king2, (this.x / 8) * j + this.x / 150, (this.y / 8) * i + this.x / 150, this.x / 9, this.y / 9);
+        else if (piece == "Bk") {
+          image(this.king2, drawX, drawY, squareW, squareH);
         }
 
         //White King
-        else if (this.pieces[i][j] == "Wk") {
-          image(this.king1, (this.x / 8) * j + this.x / 150, (this.y / 8) * i + this.x / 150, this.x / 9, this.y / 9);
+        else if (piece == "Wk") {
+          image(this.king1, drawX, drawY, squareW, squareH);
         }
       }
     }

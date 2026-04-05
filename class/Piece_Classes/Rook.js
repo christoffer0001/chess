@@ -1,27 +1,32 @@
 class Rook {
-  constructor(captureCheck) {
+  constructor(captureCheck, getPiece, setPiece) {
     this.captureCheck = captureCheck;
+    this.getPiece = getPiece;
+    this.setPiece = setPiece;
   }
 
-  move(colour, pre, current, pieces) {
-    console.log("Rook: ");
-    console.log(colour, pre, current);
+  move(colour, pre, current) {
+    let [px, py] = pre; //preX, preY
+    let [cx, cy] = current; //currentX, currentY
 
-    if (this.validMove(colour, pre, current, pieces)) {
+    if (this.validMove(colour, pre, current)) {
       if (colour == 0) {
-        pieces[pre[1]][pre[0]] = ""; // [y, x]
-        pieces[current[1]][current[0]] = "Br"; // [y, x]
+        this.setPiece(px, py, "");
+        this.setPiece(cx, cy, "Br");
       } else {
-        pieces[pre[1]][pre[0]] = ""; // [y, x]
-        pieces[current[1]][current[0]] = "Wr"; // [y, x]
+        this.setPiece(px, py, "");
+        this.setPiece(cx, cy, "Wr");
       }
     }
   }
 
-  validMove(colour, pre, current, pieces) {
+  validMove(colour, pre, current) {
+    let [px, py] = pre; //preX, preY
+    let [cx, cy] = current; //currentX, currentY
+
     //Check that movement is either horizontal or vertical (no diagonal)
-    if (current[1] == pre[1] || current[0] == pre[0]) {
-      this.diff = current[1] - pre[1] + current[0] - pre[0]; //Finds the difference
+    if (px == cx || py == cy) {
+      this.diff = cx - px + cy - py; //Finds the difference
       this.verticalCheck;
 
       //Controlls the dirrection of the piece
@@ -33,7 +38,7 @@ class Rook {
       }
 
       //If not vertical
-      if (current[1] - pre[1] != 0) {
+      if (cy - py != 0) {
         this.verticalCheck = true;
       } else {
         this.verticalCheck = false;
@@ -41,12 +46,13 @@ class Rook {
 
       for (let i = 1; i <= Math.abs(this.diff); i++) {
         if (this.verticalCheck == true) {
+          let piece = this.getPiece(px, py + i * this.dir);
           //Check for squares in y direction, for i <= absolute value of difference
-          if (pieces[pre[1] + i * this.dir][pre[0]] != "") {
-            this.tempPos = [pre[1] + i * this.dir, pre[0]];
+          if (piece != "") {
+            this.tempPos = [px, py + i * this.dir];
 
-            //Check if valid move (and the last square in the move)
-            if (this.captureCheck.check(colour, pieces, this.tempPos) && i == Math.abs(this.diff)) {
+            //Check if valid capture (and the last square in the move)
+            if (this.captureCheck.check(colour, this.tempPos) && i == Math.abs(this.diff)) {
               return true;
             } else {
               return false;
@@ -55,11 +61,13 @@ class Rook {
         }
         if (this.verticalCheck == false) {
           //Check squares in x direction
-          if (pieces[pre[1]][pre[0] + i * this.dir] != "") {
+          let piece = this.getPiece(px + i * this.dir, py);
+          if (piece != "") {
             this.tempPos = [pre[1], pre[0] + i * this.dir];
+            this.tempPos = [px + i * this.dir, py];
 
-            //Check if valid move (and the last square in the move)
-            if (this.captureCheck.check(colour, pieces, this.tempPos) && i == Math.abs(this.diff)) {
+            //Check if valid capture (and the last square in the move)
+            if (this.captureCheck.check(colour, this.tempPos) && i == Math.abs(this.diff)) {
               return true;
             } else {
               return false;
@@ -67,7 +75,6 @@ class Rook {
           }
         }
       }
-
       return true;
     }
   }
