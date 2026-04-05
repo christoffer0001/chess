@@ -41,13 +41,16 @@ class GameController {
       ["Wr", "Wkn", "Wb", "Wq", "Wk", "Wb", "Wkn", "Wr"],
     ];
 
+    //Capture validity checker
+    this.captureCheck = new CaptureValidity();
+
     //Piece classes init
-    this.pawnControll = new Pawn(this.x, this.y);
-    this.knightControll = new knight(this.x, this.y);
-    this.kingControll = new King(this.x, this.y);
-    this.bishopControll = new Bishop(this.x, this.y);
-    this.queenControll = new Queen(this.x, this.y);
-    this.rookControll = new Rook(this.x, this.y);
+    this.pawnControll = new Pawn(this.captureCheck);
+    this.knightControll = new knight(this.captureCheck);
+    this.kingControll = new King(this.captureCheck);
+    this.bishopControll = new Bishop(this.captureCheck);
+    this.queenControll = new Queen(this.captureCheck);
+    this.rookControll = new Rook(this.captureCheck);
   }
 
   moveController(coord1, coord2) {

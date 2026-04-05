@@ -11,8 +11,6 @@ Rook:
 Tecnical:
     - Logic to handle outside of board clicking
 
-
-
 Fine tuning:
     - Notation of game
     - Setup board from FEN (code)
