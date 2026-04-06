@@ -20,8 +20,21 @@ class King {
     }
   }
 
-  validMove() {
+  validMove(colour, pre, current) {
     let [px, py] = pre;
     let [cx, cy] = current;
+
+    this.diffX = Math.abs(px - cx);
+    this.diffY = Math.abs(py - cy);
+
+    if (this.diffX > 1 || this.diffY > 1) return false;
+
+    let piece = this.getPiece(cx, cy);
+    if (piece == "") {
+      return true;
+    } else {
+      if (this.captureCheck.check(colour, [cx, cy])) return true;
+    }
+    return false;
   }
 }
