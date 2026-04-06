@@ -32,5 +32,7 @@ function draw() {
 }
 
 function mouseClicked() {
-  gameController.moveController(mouseX, mouseY);
+  if (mouseX > 0 && mouseX < x && mouseY > 0 && mouseY < y) {
+    gameController.moveController(mouseX, mouseY);
+  }
 }

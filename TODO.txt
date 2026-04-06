@@ -6,7 +6,6 @@ Pawn:
     - Pawn to piece when reaching the end of board
 
 Tecnical:
-    - Logic to handle outside of board clicking
 
 Fine tuning:
     - Notation of game
