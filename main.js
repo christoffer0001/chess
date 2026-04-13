@@ -1,7 +1,7 @@
 let x = 720,
   y = x;
 
-let board, gameController;
+let board, gameController, check;
 
 function preload() {
   pawn1 = loadImage("class/pieces/pawn.png");

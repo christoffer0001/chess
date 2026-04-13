@@ -52,6 +52,8 @@ class GameController {
     this.bishopControll = new Bishop(this.captureCheck, this.getPiece.bind(this), this.setPiece.bind(this));
     this.queenControll = new Queen(this.captureCheck, this.getPiece.bind(this), this.setPiece.bind(this));
     this.rookControll = new Rook(this.captureCheck, this.getPiece.bind(this), this.setPiece.bind(this));
+
+    this.check = new Check(this.getPiece.bind(this), this.rookControll, this.bishopControll, this.knightControll, this.queenControll, this.pawnControll, this.kingControll);
   }
 
   //Helpers to be able to write [x,y] formate, but removing storage bugs since storage in JS is [y,x] (for some reason)
@@ -117,6 +119,13 @@ class GameController {
         case "Wk":
           this.kingControll.move(1, [lastX, lastY], [currentX, currentY]);
           break;
+      }
+
+      //Checks if the kings are in check right after movement :)
+      if (this.check.isKingInCheck(0)) {
+        console.log("Black king in check");
+      } else if (this.check.isKingInCheck(1)) {
+        console.log("White king in check");
       }
     }
   }
