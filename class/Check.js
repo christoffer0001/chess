@@ -29,27 +29,57 @@ class Check {
     switch (piece) {
       case "Bp":
       case "Wp":
-        return this.pawn.validMove(colour, from, to);
+        if (this.pawn.validMove(colour, from, to)) {
+          gameController.checkingPiecePos = from;
+          return true;
+        } else {
+          return false;
+        }
 
       case "Br":
       case "Wr":
-        return this.rook.validMove(colour, from, to);
+        if (this.rook.validMove(colour, from, to)) {
+          gameController.checkingPiecePos = from;
+          return true;
+        } else {
+          return false;
+        }
 
       case "Bkn":
       case "Wkn":
-        return this.knight.validMove(colour, from, to);
+        if (this.knight.validMove(colour, from, to)) {
+          gameController.checkingPiecePos = from;
+          return true;
+        } else {
+          return false;
+        }
 
       case "Bb":
       case "Wb":
-        return this.bishop.validMove(colour, from, to);
+        if (this.bishop.validMove(colour, from, to)) {
+          gameController.checkingPiecePos = from;
+          return true;
+        } else {
+          return false;
+        }
 
       case "Bq":
       case "Wq":
-        return this.queen.validMove(colour, from, to);
+        if (this.queen.validMove(colour, from, to)) {
+          gameController.checkingPiecePos = from;
+          return true;
+        } else {
+          return false;
+        }
 
       case "Bk":
       case "Wk":
-        return this.king.validMove(colour, from, to);
+        if (this.king.validMove(colour, from, to)) {
+          gameController.checkingPiecePos = from;
+          return true;
+        } else {
+          return false;
+        }
     }
   }
 

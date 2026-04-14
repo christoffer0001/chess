@@ -1,6 +1,6 @@
 Game:
     - Switching players
-    - King's check handling
+    -  King must not be able to walk into a check
 
 Pawn:
     - En Passant
