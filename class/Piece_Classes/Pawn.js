@@ -3,20 +3,33 @@ class Pawn {
     this.captureCheck = captureCheck;
     this.getPiece = getPiece;
     this.setPiece = setPiece;
+
+    this.pass = 0; //Advanced to the other side of the board?
   }
 
   move(colour, pre, current) {
     let [px, py] = pre; //preX, preY
     let [cx, cy] = current; //currentX, currentY
+    console.log(cy);
 
     if (this.validMove(colour, pre, current)) {
       this.setPiece(px, py, "");
       if (colour == 0) {
-        this.setPiece(cx, cy, "Bp");
-        gameController.player *= -1;
+        if (cy == 7) {
+          this.setPiece(cx, cy, "Bq");
+          gameController.player *= -1;
+        } else {
+          this.setPiece(cx, cy, "Bp");
+          gameController.player *= -1;
+        }
       } else {
-        this.setPiece(cx, cy, "Wp");
-        gameController.player *= -1;
+        if (cy == 0) {
+          this.setPiece(cx, cy, "Wq");
+          gameController.player *= -1;
+        } else {
+          this.setPiece(cx, cy, "Wp");
+          gameController.player *= -1;
+        }
       }
     }
   }

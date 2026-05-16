@@ -1,10 +1,10 @@
 Game:
-    - Checkmate
+    -  Block check with pieces  
+    -  Checkmate
     -  Pieces should not be able to move, so their own king ends up in check (Maybe using map function to make temp array of board)
 
 Pawn:
     - En Passant
-    - Pawn to piece when reaching the end of board
 
 Tecnical:
 
