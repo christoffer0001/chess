@@ -61,7 +61,7 @@ class GameController {
     this.checkingPiecePos;
   }
 
-  //Helpers to be able to write [x,y] formate, but removing storage bugs since storage in JS is [y,x] (for some reason)
+  //Helpers to be able to write [x,y] formate, but removing storage bugs since storage in JS is [y,x]
   getPiece(x, y) {
     return this.pieces[y][x];
   }
@@ -118,7 +118,10 @@ class GameController {
           }
           break;
         case "Bk":
-          this.kingControll.move(0, [lastX, lastY], [currentX, currentY]);
+          if (!this.check.isKingInCheck(0, [currentX, currentY])) {
+            this.kingControll.move(0, [lastX, lastY], [currentX, currentY]);
+          }
+
           break;
 
         /*White*/
@@ -149,8 +152,9 @@ class GameController {
           }
           break;
         case "Wk":
-          this.kingControll.move(1, [lastX, lastY], [currentX, currentY]);
-          break;
+          if (!this.check.isKingInCheck(1, [currentX, currentY])) {
+            this.kingControll.move(1, [lastX, lastY], [currentX, currentY]);
+          }
       }
     }
   }

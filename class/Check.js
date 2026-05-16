@@ -104,14 +104,18 @@ class Check {
     return false;
   }
 
-  isKingInCheck(colour) {
+  isKingInCheck(colour, kingPos) {
     //Finds king position
-    let kingPos = this.findKing(colour);
+    this.kingPos = kingPos;
+
+    if (!this.kingPos) {
+      this.kingPos = this.findKing(colour);
+    }
 
     //Finds the enemy colour to the colour of the king
     let enemyColour = colour == 0 ? 1 : 0;
 
     //Check if the square is being attacked by the enemy coloured pieces
-    return this.isSquareAttacked(kingPos, enemyColour);
+    return this.isSquareAttacked(this.kingPos, enemyColour);
   }
 }
