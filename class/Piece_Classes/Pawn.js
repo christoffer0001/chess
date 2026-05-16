@@ -13,8 +13,10 @@ class Pawn {
       this.setPiece(px, py, "");
       if (colour == 0) {
         this.setPiece(cx, cy, "Bp");
+        gameController.player *= -1;
       } else {
         this.setPiece(cx, cy, "Wp");
+        gameController.player *= -1;
       }
     }
   }

@@ -13,9 +13,11 @@ class Queen {
       if (colour == 0) {
         this.setPiece(px, py, "");
         this.setPiece(cx, cy, "Bq");
+        gameController.player *= -1;
       } else {
         this.setPiece(px, py, "");
         this.setPiece(cx, cy, "Wq");
+        gameController.player *= -1;
       }
     }
   }

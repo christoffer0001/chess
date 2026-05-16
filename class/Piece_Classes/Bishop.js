@@ -13,9 +13,11 @@ class Bishop {
       if (colour == 0) {
         this.setPiece(px, py, "");
         this.setPiece(cx, cy, "Bb");
+        gameController.player *= -1;
       } else {
         this.setPiece(px, py, "");
         this.setPiece(cx, cy, "Wb");
+        gameController.player *= -1;
       }
     }
   }

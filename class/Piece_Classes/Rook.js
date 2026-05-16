@@ -13,9 +13,11 @@ class Rook {
       if (colour == 0) {
         this.setPiece(px, py, "");
         this.setPiece(cx, cy, "Br");
+        gameController.player *= -1;
       } else {
         this.setPiece(px, py, "");
         this.setPiece(cx, cy, "Wr");
+        gameController.player *= -1;
       }
     }
   }

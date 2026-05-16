@@ -59,6 +59,8 @@ class GameController {
     this.blackCheck = false;
     this.whiteCheck = false;
     this.checkingPiecePos;
+
+    this.player = 1; //1 = white, -1 = black
   }
 
   //Helpers to be able to write [x,y] formate, but removing storage bugs since storage in JS is [y,x]
@@ -92,32 +94,39 @@ class GameController {
         /*Black*/
 
         //TIP: [0,1] != [0,1], because arrays can't be compared that way :)
+        // Player 1 = white, player -1 = black
         case "Bp":
+          if (this.player === 1) return;
           if (!this.blackCheck || (currentX == attackerPosX && currentY == attackerPosY)) {
             this.pawnControll.move(0, [lastX, lastY], [currentX, currentY]);
           }
           break;
         case "Br":
+          if (this.player === 1) return;
           if (!this.blackCheck || (currentX == attackerPosX && currentY == attackerPosY)) {
             this.rookControll.move(0, [lastX, lastY], [currentX, currentY]);
           }
           break;
         case "Bkn":
+          if (this.player === 1) return;
           if (!this.blackCheck || (currentX == attackerPosX && currentY == attackerPosY)) {
             this.knightControll.move(0, [lastX, lastY], [currentX, currentY]);
           }
           break;
         case "Bb":
+          if (this.player === 1) return;
           if (!this.blackCheck || (currentX == attackerPosX && currentY == attackerPosY)) {
             this.bishopControll.move(0, [lastX, lastY], [currentX, currentY]);
           }
           break;
         case "Bq":
+          if (this.player === 1) return;
           if (!this.blackCheck || (currentX == attackerPosX && currentY == attackerPosY)) {
             this.queenControll.move(0, [lastX, lastY], [currentX, currentY]);
           }
           break;
         case "Bk":
+          if (this.player === 1) return;
           if (!this.check.isKingInCheck(0, [currentX, currentY])) {
             this.kingControll.move(0, [lastX, lastY], [currentX, currentY]);
           }
@@ -127,31 +136,37 @@ class GameController {
         /*White*/
 
         case "Wp":
+          if (this.player === -1) return;
           if (!this.whiteCheck || (currentX == attackerPosX && currentY == attackerPosY)) {
             this.pawnControll.move(1, [lastX, lastY], [currentX, currentY]);
           }
           break;
         case "Wr":
+          if (this.player === -1) return;
           if (!this.whiteCheck || (currentX == attackerPosX && currentY == attackerPosY)) {
             this.rookControll.move(1, [lastX, lastY], [currentX, currentY]);
           }
           break;
         case "Wkn":
+          if (this.player === -1) return;
           if (!this.whiteCheck || (currentX == attackerPosX && currentY == attackerPosY)) {
             this.knightControll.move(1, [lastX, lastY], [currentX, currentY]);
           }
           break;
         case "Wb":
+          if (this.player === -1) return;
           if (!this.whiteCheck || (currentX == attackerPosX && currentY == attackerPosY)) {
             this.bishopControll.move(1, [lastX, lastY], [currentX, currentY]);
           }
           break;
         case "Wq":
+          if (this.player === -1) return;
           if (!this.whiteCheck || (currentX == attackerPosX && currentY == attackerPosY)) {
             this.queenControll.move(1, [lastX, lastY], [currentX, currentY]);
           }
           break;
         case "Wk":
+          if (this.player === -1) return;
           if (!this.check.isKingInCheck(1, [currentX, currentY])) {
             this.kingControll.move(1, [lastX, lastY], [currentX, currentY]);
           }

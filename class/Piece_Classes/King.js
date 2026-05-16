@@ -13,9 +13,11 @@ class King {
       if (colour == 0) {
         this.setPiece(px, py, "");
         this.setPiece(cx, cy, "Bk");
+        gameController.player *= -1;
       } else {
         this.setPiece(px, py, "");
         this.setPiece(cx, cy, "Wk");
+        gameController.player *= -1;
       }
     }
   }
