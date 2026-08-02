@@ -12,4 +12,3 @@ Fine tuning:
     - Draw arrows on board by right-clicking (Like chess.com feature)
     - Notation of game
     - Setup board from FEN (code)
-    - Down-scale pieces

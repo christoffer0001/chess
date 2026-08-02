@@ -55,9 +55,6 @@ class GameController {
 
     this.check = new Check(this.getPiece.bind(this), this.rookControll, this.bishopControll, this.knightControll, this.queenControll, this.pawnControll, this.kingControll);
 
-    //Move handling variables when in check
-    this.blackCheck = false;
-    this.whiteCheck = false;
     this.checkingPiecePos;
 
     this.player = 1; //1 = white, -1 = black
@@ -72,10 +69,6 @@ class GameController {
   }
 
   moveController(coord1, coord2) {
-    //Checks if the kings are in check right after movement :)
-    this.blackCheck = this.check.isKingInCheck(0) ? true : false;
-    this.whiteCheck = this.check.isKingInCheck(1) ? true : false;
-
     if (this.currentSquare) {
       this.lastSquare = this.currentSquare;
     } else {
@@ -97,31 +90,31 @@ class GameController {
         // Player 1 = white, player -1 = black
         case "Bp":
           if (this.player === 1) return;
-          if (!this.blackCheck || (currentX == attackerPosX && currentY == attackerPosY)) {
+          if (this.pawnControll.validMove(0, [lastX, lastY], [currentX, currentY]) && !this.wouldLeaveKingInCheck(0, [lastX, lastY], [currentX, currentY])) {
             this.pawnControll.move(0, [lastX, lastY], [currentX, currentY]);
           }
           break;
         case "Br":
           if (this.player === 1) return;
-          if (!this.blackCheck || (currentX == attackerPosX && currentY == attackerPosY)) {
+          if (this.rookControll.validMove(0, [lastX, lastY], [currentX, currentY]) && !this.wouldLeaveKingInCheck(0, [lastX, lastY], [currentX, currentY])) {
             this.rookControll.move(0, [lastX, lastY], [currentX, currentY]);
           }
           break;
         case "Bkn":
           if (this.player === 1) return;
-          if (!this.blackCheck || (currentX == attackerPosX && currentY == attackerPosY)) {
+          if (this.knightControll.validMove(0, [lastX, lastY], [currentX, currentY]) && !this.wouldLeaveKingInCheck(0, [lastX, lastY], [currentX, currentY])) {
             this.knightControll.move(0, [lastX, lastY], [currentX, currentY]);
           }
           break;
         case "Bb":
           if (this.player === 1) return;
-          if (!this.blackCheck || (currentX == attackerPosX && currentY == attackerPosY)) {
+          if (this.bishopControll.validMove(0, [lastX, lastY], [currentX, currentY]) && !this.wouldLeaveKingInCheck(0, [lastX, lastY], [currentX, currentY])) {
             this.bishopControll.move(0, [lastX, lastY], [currentX, currentY]);
           }
           break;
         case "Bq":
           if (this.player === 1) return;
-          if (!this.blackCheck || (currentX == attackerPosX && currentY == attackerPosY)) {
+          if (this.rookControll.validMove(0, [lastX, lastY], [currentX, currentY]) && !this.wouldLeaveKingInCheck(0, [lastX, lastY], [currentX, currentY])) {
             this.queenControll.move(0, [lastX, lastY], [currentX, currentY]);
           }
           break;
@@ -137,31 +130,31 @@ class GameController {
 
         case "Wp":
           if (this.player === -1) return;
-          if (!this.whiteCheck || (currentX == attackerPosX && currentY == attackerPosY)) {
+          if (this.pawnControll.validMove(1, [lastX, lastY], [currentX, currentY]) && !this.wouldLeaveKingInCheck(1, [lastX, lastY], [currentX, currentY])) {
             this.pawnControll.move(1, [lastX, lastY], [currentX, currentY]);
           }
           break;
         case "Wr":
           if (this.player === -1) return;
-          if (!this.whiteCheck || (currentX == attackerPosX && currentY == attackerPosY)) {
+          if (this.rookControll.validMove(1, [lastX, lastY], [currentX, currentY]) && !this.wouldLeaveKingInCheck(1, [lastX, lastY], [currentX, currentY])) {
             this.rookControll.move(1, [lastX, lastY], [currentX, currentY]);
           }
           break;
         case "Wkn":
           if (this.player === -1) return;
-          if (!this.whiteCheck || (currentX == attackerPosX && currentY == attackerPosY)) {
+          if (this.knightControll.validMove(1, [lastX, lastY], [currentX, currentY]) && !this.wouldLeaveKingInCheck(1, [lastX, lastY], [currentX, currentY])) {
             this.knightControll.move(1, [lastX, lastY], [currentX, currentY]);
           }
           break;
         case "Wb":
           if (this.player === -1) return;
-          if (!this.whiteCheck || (currentX == attackerPosX && currentY == attackerPosY)) {
+          if (this.bishopControll.validMove(1, [lastX, lastY], [currentX, currentY]) && !this.wouldLeaveKingInCheck(1, [lastX, lastY], [currentX, currentY])) {
             this.bishopControll.move(1, [lastX, lastY], [currentX, currentY]);
           }
           break;
         case "Wq":
           if (this.player === -1) return;
-          if (!this.whiteCheck || (currentX == attackerPosX && currentY == attackerPosY)) {
+          if (this.queenControll.validMove(1, [lastX, lastY], [currentX, currentY]) && !this.wouldLeaveKingInCheck(1, [lastX, lastY], [currentX, currentY])) {
             this.queenControll.move(1, [lastX, lastY], [currentX, currentY]);
           }
           break;
@@ -260,5 +253,24 @@ class GameController {
         }
       }
     }
+  }
+
+  wouldLeaveKingInCheck(colour, from, to) {
+    let movingPiece = this.getPiece(from[0], from[1]);
+    let capturedPiece = this.getPiece(to[0], to[1]);
+
+    //make temp move
+    this.setPiece(from[0], from[1], "");
+    this.setPiece(to[0], to[1], movingPiece);
+
+    //Check if king is now in check
+    let inCheck = this.check.isKingInCheck(colour); //true || false
+
+    //undo made move
+    this.setPiece(from[0], from[1], movingPiece);
+    this.setPiece(to[0], to[1], capturedPiece);
+
+    // returns whether king would be in check
+    return inCheck;
   }
 }
