@@ -92,6 +92,7 @@ class Check {
         if (this.canPieceAttack([x, y], [tx, ty], colour, piece)) return true;
       }
     }
+    gameController.checkingPiecePos = null;
     return false;
   }
 

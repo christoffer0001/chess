@@ -7,7 +7,9 @@
 
     <script src="lib/p5.js" defer></script>
     <script src="class/Board.js" defer></script>
+    <script src="class/FEN.js" defer></script>
     <script src="class/Check.js" defer></script>
+    <script src="class/Notation.js" defer></script>
     <script src="class/Checkmate.js" defer></script>
     <script src="class/GameController.js" defer></script>
     <script src="class/CaptureValidity.js" defer></script>
@@ -20,5 +22,26 @@
 
     <script src="main.js" defer></script>
   </head>
-  <body></body>
+  <body>
+    <div id="fenInput">
+      <form action="fenInputField">FEN Code:</form>
+      <input type="text" name="fenInputField" id="fenCode" />
+      <button id="loadFen">Load FEN</button>
+    </div>
+    <br /><br />
+    <div id="fenDisplay"></div>
+
+    <style>
+      #fenInput {
+        position: absolute;
+        left: 780px;
+        top: 80px;
+      }
+      #fenDisplay {
+        position: absolute;
+        left: 780px;
+        top: 120px;
+      }
+    </style>
+  </body>
 </html>

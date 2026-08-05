@@ -30,6 +30,15 @@ class GameController {
         King = "-k"
     */
 
+    //FEN code conveter (between array and FEN)
+    this.fenConvert = new Notation();
+
+    //Adds event listener to html btn
+    document.getElementById("loadFen").addEventListener("click", () => {
+      const fen = document.getElementById("fenCode").value;
+      this.pieces = this.fenConvert.fenToBoard(fen);
+    });
+
     //Storage as [y, x] (JS - style)
     this.pieces = [
       ["Br", "Bkn", "Bb", "Bq", "Bk", "Bb", "Bkn", "Br"],
@@ -81,8 +90,6 @@ class GameController {
       //Tap into class for specifik piece
       let [lastX, lastY] = this.lastSquare;
       let [currentX, currentY] = this.currentSquare;
-      //Define attackers position when there is one (else define as [0,0])
-      let [attackerPosX, attackerPosY] = this.checkingPiecePos ? this.checkingPiecePos : [0, 0];
 
       switch (this.pieces[this.lastSquare[1]][this.lastSquare[0]]) {
         /*Black*/

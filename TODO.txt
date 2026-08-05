@@ -1,4 +1,5 @@
 Game:
+    - Castling
     - Create an optional chess clock for time controll
 
 Tecnical:

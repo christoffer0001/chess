@@ -34,5 +34,6 @@ function draw() {
 function mouseClicked() {
   if (mouseX > 0 && mouseX < x && mouseY > 0 && mouseY < y) {
     gameController.moveController(mouseX, mouseY);
+    document.getElementById("fenDisplay").innerHTML = " " + gameController.fenConvert.boardToFen();
   }
 }
