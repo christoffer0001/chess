@@ -10,7 +10,7 @@ class Bishop {
     let [cx, cy] = current; //currentX, currentY
 
     if (this.validMove(colour, pre, current)) {
-      if (colour == 0) {
+      if (colour == -1) {
         this.setPiece(px, py, "");
         this.setPiece(cx, cy, "Bb");
         gameController.player *= -1;
@@ -21,28 +21,36 @@ class Bishop {
       }
     }
   }
-
   validMove(colour, pre, current) {
     let [px, py] = pre;
     let [cx, cy] = current;
 
-    this.dirY = py < cy ? 1 : -1; //Ternary operator: (Condition to test) ? true value : false value
-    this.dirX = px < cx ? 1 : -1;
-    this.diff = Math.abs(px - cx);
-    if (cy - py != this.diff * this.dirY) return false;
+    let diffX = Math.abs(px - cx);
+    let diffY = Math.abs(py - cy);
 
-    for (let i = 1; i <= this.diff; i++) {
-      let piece = this.getPiece(px + i * this.dirX, py + i * this.dirY);
-      this.tempPos = [px + i * this.dirX, py + i * this.dirY];
+    // Bishop must move the same amount horizontally and vertically
+    if (diffX !== diffY) return false;
+
+    let dirX = px < cx ? 1 : -1;
+    let dirY = py < cy ? 1 : -1;
+
+    // Check squares between start and destination
+    for (let i = 1; i < diffX; i++) {
+      let piece = this.getPiece(px + i * dirX, py + i * dirY);
+
       if (piece !== "") {
-        //Check if valid capture (and the last square in the move)
-        if (this.captureCheck.check(colour, this.tempPos) && i == this.diff) {
-          return true;
-        } else {
-          return false;
-        }
+        return false; // Something blocks the diagonal
       }
     }
-    return true;
+
+    // Check destination
+    let destination = this.getPiece(cx, cy);
+
+    if (destination === "") {
+      return true;
+    }
+
+    // Allow capture only if enemy piece
+    return this.captureCheck.check(colour, [cx, cy]);
   }
 }

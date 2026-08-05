@@ -14,7 +14,7 @@ class Pawn {
 
     if (this.validMove(colour, pre, current)) {
       this.setPiece(px, py, "");
-      if (colour == 0) {
+      if (colour == -1) {
         if (cy == 7) {
           this.setPiece(cx, cy, "Bq");
           gameController.player *= -1;
@@ -39,7 +39,7 @@ class Pawn {
     let [cx, cy] = current; //currentX, currentY
 
     //Black piece
-    if (colour == 0) {
+    if (colour == -1) {
       //Check if move (else capture)
       if (this.getPiece(cx, cy) == "") {
         //If on black starting square && pre == current in x direction

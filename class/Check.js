@@ -18,7 +18,7 @@ class Check {
         //Finds the piece
         let piece = this.getPieces(x, y);
         //Check if the piece is a king, and which one? Also ensures it's the right king that's returned
-        if (colour == 0 && piece == "Bk") return [x, y];
+        if (colour == -1 && piece == "Bk") return [x, y];
         if (colour == 1 && piece == "Wk") return [x, y];
       }
     }
@@ -26,54 +26,45 @@ class Check {
 
   canPieceAttack(from, to, colour, piece) {
     //Check if the pieces has the king as a valid move, from where they are
-    switch (piece) {
-      case "Bp":
-      case "Wp":
+    let type = piece.slice(1);
+
+    switch (type) {
+      case "p":
         if (this.pawn.validMove(colour, from, to)) {
           gameController.checkingPiecePos = from;
           return true;
         } else {
           return false;
         }
-
-      case "Br":
-      case "Wr":
+      case "r":
         if (this.rook.validMove(colour, from, to)) {
           gameController.checkingPiecePos = from;
           return true;
         } else {
           return false;
         }
-
-      case "Bkn":
-      case "Wkn":
+      case "kn":
         if (this.knight.validMove(colour, from, to)) {
           gameController.checkingPiecePos = from;
           return true;
         } else {
           return false;
         }
-
-      case "Bb":
-      case "Wb":
+      case "b":
         if (this.bishop.validMove(colour, from, to)) {
           gameController.checkingPiecePos = from;
           return true;
         } else {
           return false;
         }
-
-      case "Bq":
-      case "Wq":
+      case "q":
         if (this.queen.validMove(colour, from, to)) {
           gameController.checkingPiecePos = from;
           return true;
         } else {
           return false;
         }
-
-      case "Bk":
-      case "Wk":
+      case "k":
         if (this.king.validMove(colour, from, to)) {
           gameController.checkingPiecePos = from;
           return true;
@@ -93,7 +84,7 @@ class Check {
         //Moves to next itteration
         if (piece == "") continue;
 
-        let colour = piece[0] == "B" ? 0 : 1;
+        let colour = piece[0] == "B" ? -1 : 1;
 
         //Moves to next itteration
         if (colour != attackColour) continue;
@@ -113,7 +104,7 @@ class Check {
     }
 
     //Finds the enemy colour to the colour of the king
-    let enemyColour = colour == 0 ? 1 : 0;
+    let enemyColour = colour == -1 ? 1 : -1;
 
     //Check if the square is being attacked by the enemy coloured pieces
     return this.isSquareAttacked(this.kingPos, enemyColour);

@@ -10,7 +10,7 @@ class King {
     let [cx, cy] = current; //currentX, currentY
 
     if (this.validMove(colour, pre, current)) {
-      if (colour == 0) {
+      if (colour == -1) {
         this.setPiece(px, py, "");
         this.setPiece(cx, cy, "Bk");
         gameController.player *= -1;
